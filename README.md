@@ -1,1 +1,1 @@
-# cnfut-client
+# cnfut
