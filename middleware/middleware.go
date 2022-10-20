@@ -1,9 +1,12 @@
 package middleware
 
-import "github.com/oktayalizada/cnfut/helper"
+import (
+	"github.com/oktayalizada/cnfut/pkg"
+	"github.com/oktayalizada/cnfut/utils"
+)
 
 var SupportedSystems = []string{"azure", "local", "s3"}
 
-func CheckInput(source, sourceType, destination, destinationType string) bool {
-	return helper.Contains(SupportedSystems, sourceType) && helper.Contains(SupportedSystems, destinationType)
+func CheckInput(srcDest pkg.SourceDestination) bool {
+	return utils.Contains(SupportedSystems, srcDest.SourceType) && utils.Contains(SupportedSystems, srcDest.DestinationType)
 }
