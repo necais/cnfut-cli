@@ -1,10 +1,11 @@
 /*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
+Copyright © 2022 NAME HERE <oktay.alizada@necais.com>
 */
 package cmd
 
 import (
 	"fmt"
+	"github.com/oktayalizada/cnfut/entities"
 	"github.com/oktayalizada/cnfut/middleware"
 	"github.com/oktayalizada/cnfut/pkg"
 
@@ -28,7 +29,7 @@ to quickly create a Cobra application.`,
 		dest, _ := cmd.Flags().GetString("dest")
 		concurrent, _ := cmd.Flags().GetBool("ccrt")
 
-		srcDest := pkg.SourceDestination{
+		srcDest := entities.SourceDestination{
 			SourceType:      srcType,
 			DestinationType: destType,
 			Destination:     dest,
@@ -36,7 +37,7 @@ to quickly create a Cobra application.`,
 			Concurrent:      concurrent,
 		}
 		fmt.Printf("Middleware checking %+v\n", srcDest)
-		if middleware.CheckInput(srcDest) {
+		if middleware.ValidateAndFormat(&srcDest) {
 			pkg.Copy(srcDest)
 		} else {
 			fmt.Println("bad request")
@@ -52,6 +53,7 @@ func init() {
 	copyCmd.Flags().StringP("destt", "", "", "specify destination type")
 	copyCmd.Flags().StringP("dest", "", "", "specify destination")
 	copyCmd.Flags().BoolP("ccrt", "c", false, "Should be executed concurrently")
+	copyCmd.Flags().StringP("region", "r", "", "Region for clouds")
 	err := copyCmd.MarkFlagRequired("srct")
 	if err != nil {
 		return
